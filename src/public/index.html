@@ -7,6 +7,7 @@
     <title>NLW 2021</title>
   </head>
   <body>
+    <button type="submit" onclick="myFunction()">Click Here</button>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"
       integrity="sha512-zN6KYOtONNTOGXz0RkWX2EpavN9VdIs+2w+To+fhciFv83YA9maUpi2lzZWrOfKXdFIZZomWufBznkyHi3a8oQ=="
@@ -17,7 +18,31 @@
     <script>
       const socket = io("http://localhost:3000")
 
-      socket.on("new_message", (data) => console.log(data))
+      socket.on("new_message", (msg) => {
+        console.log("Mensagem enviada pelo service: ", msg)
+      })
+
+      function myFunction() {
+        console.log("Click")
+        const user = {
+          nome: "wellington",
+          telefone: "(19) 54544358643548",
+        }
+
+        socket.emit("user", user, (err, ok) => {
+          if (err) {
+            console.log("erro")
+          } else {
+            console.log("ok")
+          }
+        })
+        console.log("enviado")
+
+        socket.on("retorno_user", (data) => {
+          console.log(`Log dos dados recebidos: ${data}`)
+        })
+      }
+      // socket.on("")
     </script>
   </body>
 </html>

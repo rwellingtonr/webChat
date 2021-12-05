@@ -24,9 +24,5 @@ const io = new Server(serverHttp, {
     origin: "*",
   },
 })
-// Event listener
-io.on("connection", (socket) => {
-  console.log(`User connected on socket ${socket.id}`)
-})
 
 export { serverHttp, io }

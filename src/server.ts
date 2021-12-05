@@ -1,4 +1,5 @@
 import { serverHttp } from "./App/app"
+import "./Config/socket.ts"
 
 const { SERVER_PORT } = process.env
 
