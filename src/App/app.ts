@@ -5,6 +5,7 @@ import { routes } from "../Router/routes"
 import "dotenv/config"
 import "../Database/connection"
 import { Server } from "socket.io"
+import path from "path"
 
 // Start the app
 const app = express()
@@ -12,11 +13,11 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(routes)
-//just for test
-app.get("/", (req, res) => {
-  return res.send("working")
-})
+// Set static folder
+app.use(express.static(path.join(__dirname, "../public")))
+
 /*Server with http method*/
+
 const serverHttp = createServer(app)
 
 const io = new Server(serverHttp, {

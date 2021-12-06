@@ -2,47 +2,61 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NLW 2021</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+      integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Web Chat</title>
   </head>
   <body>
-    <button type="submit" onclick="myFunction()">Click Here</button>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"
-      integrity="sha512-zN6KYOtONNTOGXz0RkWX2EpavN9VdIs+2w+To+fhciFv83YA9maUpi2lzZWrOfKXdFIZZomWufBznkyHi3a8oQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <script src="js/main.js"></script>
+    <div class="join-container">
+      <header class="join-header">
+        <h1>Chat Teste Websocket</h1>
+      </header>
+      <main class="join-main">
+        <form action="chat.html">
+          <div class="form-control">
+            <label for="username">Usuário</label>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              placeholder="Seu nome..."
+              required
+            />
+          </div>
+          <div class="form-control">
+            <label for="room">Salas</label>
+            <select name="room" id="room">
+              <option value="JavaScript">JavaScript</option>
+              <option value="Python">Python</option>
+              <option value="Elixir">Elixir</option>
+              <option value="Java">Java</option>
+            </select>
+          </div>
+          <button onclick="myfunction()" type="submit" class="btn">
+            Entrar no chat
+          </button>
+        </form>
+      </main>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"
+        integrity="sha512-zN6KYOtONNTOGXz0RkWX2EpavN9VdIs+2w+To+fhciFv83YA9maUpi2lzZWrOfKXdFIZZomWufBznkyHi3a8oQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      ></script>
 
-    <script>
-      const socket = io("http://localhost:3000")
+      <script>
+        // const socket = io("http://localhost:3000")
 
-      socket.on("new_message", (msg) => {
-        console.log("Mensagem enviada pelo service: ", msg)
-      })
-
-      function myFunction() {
-        console.log("Click")
-        const user = {
-          nome: "wellington",
-          telefone: "(19) 54544358643548",
-        }
-
-        socket.emit("user", user, (err, ok) => {
-          if (err) {
-            console.log("erro")
-          } else {
-            console.log("ok")
-          }
-        })
-        console.log("enviado")
-
-        socket.on("retorno_user", (data) => {
-          console.log(`Log dos dados recebidos: ${data}`)
-        })
-      }
-      // socket.on("")
-    </script>
+        socket.on("new_room", (data) => console.log(data))
+      </script>
+    </div>
   </body>
 </html>
