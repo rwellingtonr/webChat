@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --ignore-watch node_modules --transpile-only --no-notify  src/server.ts"
+    "dev": "tsnd --ignore-watch node_modules --cls --exit-child --transpile-only -- src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "ioredis": "^4.28.2",
     "moment": "^2.29.1",
     "mongoose": "^6.0.14",
     "socket.io": "^4.4.0"
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
+    "@types/ioredis": "^4.28.3",
     "@types/node": "^16.11.11",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
