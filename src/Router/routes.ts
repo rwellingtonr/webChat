@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { createRoomController } from "../Controller/createRoomController"
-import { sendMessageController } from "../Controller/teste"
+import { sendMessageController } from "../Controller/sendMessageController"
 
 const routes = Router()
 

@@ -1,12 +1,12 @@
 import { io } from "../App/app"
 import { Users } from "../Interface"
-import { formatMessage } from "../utils/messages"
+import { formatMessage } from "../Utils/messages"
 import {
   getCurrentUser,
   getRoomUsers,
   userJoin,
   userLeave,
-} from "../utils/users"
+} from "../Utils/users"
 
 const botName = "Robozinho"
 

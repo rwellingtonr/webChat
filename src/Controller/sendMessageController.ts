@@ -1,14 +1,14 @@
 /* What this Controller does... */
 import { Request, Response } from "express"
-import { sendMessaService } from "../Services"
+import { IUserData } from "../Interface"
 
 class sendMessageController {
   async handle(req: Request, res: Response) {
     try {
-      const { msg } = req.body
+      const { roomId, user }: IUserData = req.body
 
-      const service = new sendMessaService()
-      const result = service.execute(msg)
+      const service = "new Service();"
+      const result = await "service.execute()"
       return res.status(200).json({ result: result })
     } catch (error) {
       return res.status(401).json({ error: error })
