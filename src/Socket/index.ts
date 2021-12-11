@@ -11,7 +11,7 @@ import {
 const botName = "Robozinho"
 
 // Run when client connects
-io.on("connection", (socket) => {
+io.on("connect", (socket) => {
   socket.on("joinRoom", ({ username, room }: Users) => {
     const user = userJoin(socket.id, username, room)
 

@@ -2,10 +2,13 @@ import express from "express"
 import cors from "cors"
 import { createServer } from "http"
 import { routes } from "../Router/routes"
+import { Server, Socket } from "socket.io"
+import { createAdapter } from "@socket.io/redis-adapter"
+import path from "path"
+import { ioredis } from "../Config"
+
 import "dotenv/config"
 import "../Database/connection"
-import { Server } from "socket.io"
-import path from "path"
 
 // Start the app
 const app = express()
@@ -19,11 +22,18 @@ app.use(express.static(path.join(__dirname, "../public")))
 /*Server with http method*/
 
 const serverHttp = createServer(app)
+const pubClient = ioredis
+const subClient = pubClient.duplicate()
 
 const io = new Server(serverHttp, {
   cors: {
     origin: "*",
   },
+  adapter: createAdapter(pubClient, subClient),
+})
+
+io.on("connetion", (socket: Socket) => {
+  console.log(`Socket id: ${socket.id}`)
 })
 
 export { serverHttp, io }
