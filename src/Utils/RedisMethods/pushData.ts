@@ -1,9 +1,9 @@
 import { promisify } from "util"
 import { ioredis } from "../../Config"
-import { IUserData } from "../../Interface"
+import { IFormatMessage } from "../../Interface"
 
-const addMessage = ({ roomId, user }: IUserData): Promise<number> => {
-  const parsedMsg = JSON.stringify(user)
+const addMessage = (roomId: string, msg: IFormatMessage): Promise<number> => {
+  const parsedMsg = JSON.stringify(msg)
   const pushMsg = promisify(ioredis.rpush).bind(ioredis)
   return pushMsg(roomId, parsedMsg)
 }

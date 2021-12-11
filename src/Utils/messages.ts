@@ -1,12 +1,7 @@
 import moment from "moment"
+import { IFormatMessage } from "../Interface"
 
-type FormatMessage = {
-  username: string
-  text: string
-  time: string
-}
-
-export function formatMessage(username: string, text: string): FormatMessage {
+const formatMessage = (username: string, text: string): IFormatMessage => {
   const hora = moment().format("h:mm a")
 
   return {
@@ -15,3 +10,4 @@ export function formatMessage(username: string, text: string): FormatMessage {
     time: hora,
   }
 }
+export { formatMessage }

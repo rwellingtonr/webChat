@@ -4,6 +4,12 @@ export interface Users {
   room: string
 }
 export interface IUserData {
-  user: { name: string; age: number; message: string }
+  user: { name: string; message: string }
   roomId: string
+}
+
+export interface IFormatMessage {
+  username: string
+  text: string
+  time: string
 }
