@@ -30,6 +30,7 @@ socket.on("message", (message) => {
 
 socket.on("msg-do-back", (data) => {
   console.log(`método in: ${data}`)
+  outputMessage(data)
 })
 socket.on("msg-do-back2", (data) => {
   console.log(`msg do backend 2 ${data}`)
