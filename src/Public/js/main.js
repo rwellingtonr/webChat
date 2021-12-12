@@ -4,14 +4,14 @@ const roomName = document.getElementById("room-name")
 const userList = document.getElementById("users")
 
 // Get username and room from URL
-const { username, room } = Qs.parse(location.search, {
+const { user, roomId } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
 })
 
 const socket = io("http://localhost:3000")
 
-// Join chatroom
-socket.emit("joinRoom", { username, room })
+// Join chatroomId
+socket.emit("joinRoom", { user, roomId })
 
 // Get room and users
 socket.on("roomUsers", ({ room, users }) => {
@@ -26,10 +26,6 @@ socket.on("message", (message) => {
 
   // Scroll down
   chatMessages.scrollTop = chatMessages.scrollHeight
-})
-
-socket.on("new_room", (room) => {
-  console.log(`Sala ${room} criada com sucesso!`)
 })
 
 // Message submit
@@ -90,24 +86,6 @@ document.getElementById("leave-btn").addEventListener("click", () => {
   if (leaveRoom) {
     window.location = "../index.html"
   } else {
+    console.error("Error")
   }
 })
-
-/////
-function myfunction() {
-  const data = { room: "JavaScript" }
-  fetch("http://localhost:3000/createRoom", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Success:", data)
-    })
-    .catch((error) => {
-      console.error("Error:", error)
-    })
-}

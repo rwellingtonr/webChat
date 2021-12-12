@@ -1,11 +1,12 @@
+import { IFormatMessage } from "../Interface"
 import { listMsgs } from "../Utils/RedisMethods/retrievers"
 
 const getAllMsg = async (roomId: string) => {
+  const rangeList: IFormatMessage[] = []
   const messages = await listMsgs(roomId)
-  let rangeList = {}
   for (const message of messages) {
     const msgParsed = JSON.parse(message)
-    rangeList = { ...msgParsed }
+    rangeList.push(...msgParsed)
   }
   return rangeList
 }

@@ -14,7 +14,6 @@
     <title>Web Chat</title>
   </head>
   <body>
-    <script src="js/main.js"></script>
     <div class="join-container">
       <header class="join-header">
         <h1>Chat Teste Websocket</h1>
@@ -22,27 +21,22 @@
       <main class="join-main">
         <form action="chat.html">
           <div class="form-control">
-            <label for="username">Usuário</label>
+            <label for="user">Usuário</label>
             <input
               type="text"
-              name="username"
-              id="username"
+              name="user"
+              id="user"
               placeholder="Seu nome..."
               required
             />
           </div>
           <div class="form-control">
-            <label for="room">Salas</label>
-            <select name="room" id="room">
-              <option value="JavaScript">JavaScript</option>
-              <option value="Python">Python</option>
-              <option value="Elixir">Elixir</option>
-              <option value="Java">Java</option>
+            <label for="roomId">Salas</label>
+            <select name="roomId" id="roomId">
+              <option value="js">JavaScript</option>
             </select>
           </div>
-          <button onclick="myfunction()" type="submit" class="btn">
-            Entrar no chat
-          </button>
+          <button type="submit" class="btn">Entrar no chat</button>
         </form>
       </main>
       <script
@@ -53,9 +47,38 @@
       ></script>
 
       <script>
-        // const socket = io("http://localhost:3000")
+        const socket = io("http://localhost:3000")
 
-        socket.on("new_room", (data) => console.log(data))
+        const list = {}
+
+        socket.on("new_room", (data) => {
+          const { roomId } = data
+          if (!(roomId in list)) {
+            list = { ...list, roomId }
+            console.log(list)
+            newElement(roomId)
+          }
+          socket.emit("front-msg", { roomId })
+        })
+
+        function newElement(roomId) {
+          var li = document.createElement("option")
+          var inputValue = roomId
+          var t = document.createTextNode(inputValue)
+          li.appendChild(t)
+          if (inputValue === "") {
+            alert("You must write something!")
+          } else {
+            document.getElementById("roomId").appendChild(li)
+          }
+
+          for (i = 0; i < close.length; i++) {
+            close[i].onclick = function () {
+              var div = this.parentElement
+              div.style.display = "none"
+            }
+          }
+        }
       </script>
     </div>
   </body>

@@ -2,6 +2,7 @@
 
 import { io } from "../App/app"
 import { IUserData } from "../Interface"
+import { storageMsgData } from "../Job/storageMsg"
 import { existKey } from "../Utils/RedisMethods/retrievers"
 
 class sendMsgService {
@@ -10,11 +11,11 @@ class sendMsgService {
     if (existIt) {
       // send message to an existing chat
     } else {
-      io.emit("new_user", dataMsg)
+      io.emit("new_room", dataMsg)
     }
 
-    const data = "await data"
-    return data
+    const result = await storageMsgData(dataMsg)
+    return result
   }
 }
 
