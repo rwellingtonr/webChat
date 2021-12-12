@@ -14,9 +14,9 @@ const socket = io("http://localhost:3000")
 socket.emit("joinRoom", { user, roomId })
 
 // Get room and users
-socket.on("roomUsers", ({ room, users }) => {
-  outputRoomName(room)
-  outputUsers(users)
+socket.on("roomUsers", ({ roomId, user }) => {
+  outputRoomName(roomId)
+  //outputUsers(user)
 })
 
 // Message from server
@@ -26,6 +26,13 @@ socket.on("message", (message) => {
 
   // Scroll down
   chatMessages.scrollTop = chatMessages.scrollHeight
+})
+
+socket.on("msg-do-back", (data) => {
+  console.log(`método in: ${data}`)
+})
+socket.on("msg-do-back2", (data) => {
+  console.log(`msg do backend 2 ${data}`)
 })
 
 // Message submit
@@ -40,9 +47,10 @@ chatForm.addEventListener("submit", (e) => {
   if (!msg) {
     return false
   }
+  const room = roomId
 
   // Emit message to server
-  socket.emit("chatMessage", msg)
+  socket.emit("chatMessage", { msg, room })
 
   // Clear input
   e.target.elements.msg.value = ""
@@ -71,14 +79,14 @@ function outputRoomName(room) {
 }
 
 // Add users to DOM
-function outputUsers(users) {
+/*function outputUsers(users) {
   userList.innerHTML = ""
   users.forEach((user) => {
     const li = document.createElement("li")
     li.innerText = user.username
     userList.appendChild(li)
   })
-}
+}*/
 
 //Prompt the user before leave chat room
 document.getElementById("leave-btn").addEventListener("click", () => {

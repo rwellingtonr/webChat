@@ -9,7 +9,10 @@ class sendMsgService {
   async execute(dataMsg: IUserData) {
     const existIt = await existKey(dataMsg.roomId)
     if (existIt) {
-      // send message to an existing chat
+      const { roomId, user } = dataMsg
+
+      io.in(roomId).emit("msg-do-back", user.message)
+      io.to(roomId).emit("msg-do-back2", user.message)
     } else {
       io.emit("new_room", dataMsg)
     }

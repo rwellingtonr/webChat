@@ -49,12 +49,12 @@
       <script>
         const socket = io("http://localhost:3000")
 
-        const list = {}
+        const list = []
 
         socket.on("new_room", (data) => {
           const { roomId } = data
           if (!(roomId in list)) {
-            list = { ...list, roomId }
+            list.push({ ...data, roomId })
             console.log(list)
             newElement(roomId)
           }

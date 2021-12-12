@@ -1,7 +1,7 @@
-export interface Users {
+export interface IUsers {
   id?: string
-  username: string
-  room: string
+  user: string
+  roomId: string
 }
 export interface IUserData {
   user: { name: string; message: string }

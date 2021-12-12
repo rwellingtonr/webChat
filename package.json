@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsnd --ignore-watch node_modules --cls --exit-child --transpile-only -- src/server.ts"
+    "dev": "tsnd --ignore-watch node_modules -- src/server.ts"
   },
   "keywords": [],
   "author": "",
