@@ -6,8 +6,8 @@ export interface IMsgBody {
 export interface IDataMsg {
 	client?: string
 	user?: string
-	content: Content
-	sendAt: string
+	content?: Content
+	sendAt?: string
 	room?: string
 }
 type Content = {

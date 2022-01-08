@@ -1,52 +1,42 @@
 import { io } from "../app/app"
+import { IDataMsg } from "../interface"
 import { formatMessage } from "../utils/messages"
-import { getCurrentUser, getRoomUsers, userJoin, userLeave } from "../utils/users"
+import { listMessages } from "../utils/redisMethods/getFunc"
+import { setData, setMessages } from "../utils/redisMethods/setFunc"
 
-const botName = "Robozinho"
-// Run when client connects
+type SendMsg = {
+	user: string
+	room: string
+}
+
 io.on("connection", (socket) => {
-	socket.on("joinRoom", ({ username, room }) => {
-		const user = userJoin(socket.id, username, room)
+	socket.on("joinRoom", async ({ user, room }: SendMsg) => {
+		try {
+			socket.join(room)
 
-		socket.join(user.room)
-
-		// Welcome current user
-		socket.emit("message", formatMessage(botName, "Welcome to ChatCord!"))
-
-		// Broadcast when a user connects
-		socket.broadcast
-			.to(user.room)
-			.emit("message", formatMessage(botName, ` ${user.username} has joined the chat`))
-
-		// Send users and room info
-		io.to(user.room).emit("roomUsers", {
-			room: user.room,
-			users: getRoomUsers(user.room),
-		})
+			const retrievedMsg = await listMessages(room)
+			if (retrievedMsg[0]) {
+				const dataToSet: IDataMsg = { ...retrievedMsg[0], user, room }
+				await setData(room, dataToSet)
+			}
+			// Broadcast when a user connects
+			io.to(room).emit("new.msg", retrievedMsg)
+		} catch (error) {
+			throw new Error(`Erro: ${error}`)
+		}
 	})
 
 	// Listen for chatMessage
-	socket.on("chatMessage", (msg: string) => {
-		const user = getCurrentUser(socket.id)
-
-		io.to(user.room).emit("message", formatMessage(user.username, msg))
+	socket.on("user.msg", async (dataMessage: IDataMsg) => {
+		console.log(dataMessage)
+		const { room } = dataMessage
+		io.to(room).emit("new.msg", { dataMessage })
+		const message = formatMessage(dataMessage)
+		await setMessages(room, message)
 	})
 
 	// Runs when client disconnects
-	socket.on("disconnect", () => {
-		const user = userLeave(socket.id)
-
-		if (user) {
-			io.to(user.room).emit(
-				"message",
-				formatMessage(botName, ` ${user.username} has left the chat`)
-			)
-
-			// Send users and room info
-			io.to(user.room).emit("roomUsers", {
-				room: user.room,
-				users: getRoomUsers(user.room),
-			})
-		}
+	socket.on("disconnect", (reason) => {
+		console.log(`Disconnected reason: ${reason}`)
 	})
 })
