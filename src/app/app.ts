@@ -1,11 +1,12 @@
 import express from "express"
 import cors from "cors"
 import { createServer } from "http"
-import { routes } from "../Router/routes"
-import "dotenv/config"
-import "../Database/connection"
+import { routes } from "../router/routes"
 import { Server } from "socket.io"
-import path from "path"
+import { ioredis } from "../cache"
+import { createAdapter } from "@socket.io/redis-adapter"
+
+import "dotenv/config"
 
 // Start the app
 const app = express()
@@ -13,17 +14,17 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(routes)
-// Set static folder
-app.use(express.static(path.join(__dirname, "../public")))
 
 /*Server with http method*/
-
 const serverHttp = createServer(app)
 
+const pubClient = ioredis
+const subClient = pubClient.duplicate()
 const io = new Server(serverHttp, {
-  cors: {
-    origin: "*",
-  },
+	adapter: createAdapter(pubClient, subClient),
+	cors: {
+		origin: "*",
+	},
 })
 
 export { serverHttp, io }

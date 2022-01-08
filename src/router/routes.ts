@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { sendMessageController } from "../Controller/sendMessageController"
+import { sendMessageController } from "../controller/sendMessageController"
 
 const routes = Router()
 
